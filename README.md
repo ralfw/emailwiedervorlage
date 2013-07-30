@@ -1,5 +1,4 @@
 # Automatische Email-Wiedervorlage
-===
 
 Service zur automatischen Wiedervorlage von Emails à la [followup.cc](http://followup.cc).
 
