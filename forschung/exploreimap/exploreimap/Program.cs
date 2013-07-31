@@ -11,6 +11,14 @@ using ActiveUp.Net.Mail;
 
 namespace exploreimap
 {
+    /*
+     * Weitere Forschung:
+     *  - Email im Posteingang löschen
+     *  - Nur ungelesene Email laden
+     *  - Email versenden
+     *      - Email mit Originalinhalt + Zusatz versenden
+     *  - Email zurücksenden mit/ohne Reply-to
+     */
     class Program
     {
         static void Main(string[] args)
@@ -25,7 +33,12 @@ namespace exploreimap
             Console.WriteLine("connected");
             foreach (var email in rep.GetAllMails("Inbox"))
             {
-                Console.WriteLine("{0}->{1}:{2}\n{3}</p>", email.To[0].Email, email.From, email.Subject, email.BodyText.Text);
+                Console.WriteLine("{0}->{1}/{2}:{3}\n{4}</p>", 
+                    email.To[0], 
+                    email.From, 
+                    email.ReplyTo,
+                    email.Subject, 
+                    email.BodyText.Text);
             }
         }
     }
