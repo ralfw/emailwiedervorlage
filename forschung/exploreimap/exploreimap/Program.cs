@@ -12,6 +12,8 @@ using ActiveUp.Net.Mail;
 namespace exploreimap
 {
     /*
+     * IMAP Lib: http://mailsystem.codeplex.com/
+     * 
      * Weitere Forschung:
      *  - Email im Posteingang löschen
      *  - Nur ungelesene Email laden
