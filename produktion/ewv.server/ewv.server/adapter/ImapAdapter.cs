@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ActiveUp.Net.Mail;
@@ -20,18 +21,48 @@ namespace ewv.server.adapter
 
         public IEnumerable<Email> Einplanungen_abholen()
         {
+            var messages = Nachrichten_abholen();
+            messages = Dubletten_aussieben(messages);
+            return Für_jede_Einplanungsadresse_auf_Email_mappen(messages);
+        }
+
+        private IEnumerable<Message> Nachrichten_abholen()
+        {
             var mailbox = _imap.SelectMailbox("Inbox");
             var messages = mailbox.SearchParse("UNSEEN").Cast<Message>().ToArray();
+            return messages;
+        }
+        
+        private static IEnumerable<Message> Dubletten_aussieben(IEnumerable<Message> messages)
+        {
+            // Falls eine Nachricht mehrere Wiedervorlageadressen enthält, entstehen mehrere Kopien in der Inbox.
+            // BCC-Empfänger sind nur in der ersten Kopie enthalten!
+            var uniqueMessages = new Dictionary<string, Message>();
+            foreach (var msg in messages) 
+                if (!uniqueMessages.ContainsKey(msg.MessageId))
+                    uniqueMessages.Add(msg.MessageId, msg);
+            return uniqueMessages.Values;
+        }
 
-            Console.WriteLine("Einplanungen abgeholt: {0}", messages.Count());
+        private IEnumerable<Email> Für_jede_Einplanungsadresse_auf_Email_mappen(IEnumerable<Message> messages)
+        {
+            return from msg in messages
+                   from einplanungsadresse in Einplanungsemailadressen_sammeln(msg)
+                   select new Email {
+                       An = einplanungsadresse,
+                       Von = msg.From.Email,
+                       Betreff = msg.Subject,
+                       Text = msg.BodyText.Text
+                   };
+        }
 
-            return messages.Select(msg => new Email
-            {
-                An = msg.To[0].Email,
-                Von = msg.From.Email,
-                Betreff = msg.Subject,
-                Text = msg.BodyText.Text
-            }).ToArray();
+        private IEnumerable<string> Einplanungsemailadressen_sammeln(Message msg)
+        {
+            return msg.To
+                      .Union(msg.Cc)
+                      .Union(msg.Bcc)
+                      .Where(empfänger => empfänger.Email.ToLower().EndsWith("@emailwiedervorlage.de"))
+                      .Select(empfänger => empfänger.Email);
         }
 
 
