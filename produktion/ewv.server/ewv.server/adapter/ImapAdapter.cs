@@ -7,7 +7,9 @@ namespace ewv.server.adapter
     internal class ImapAdapter : IDisposable
     {
         public ImapAdapter(KonfigurationAdapter config)
-        {}
+        {
+            
+        }
 
         public IEnumerable<Email> Einplanungen_abholen()
         {
