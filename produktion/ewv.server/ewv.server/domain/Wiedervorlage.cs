@@ -41,7 +41,7 @@ namespace ewv.server.domain
         {
             var text = string.Format("<b>Wiedervorlage für Email vom {0}</b><br/><hr/>{1}",
                                       einplanung.AngelegtAm,
-                                      einplanung.Text);
+                                      einplanung.Text.Replace("\n", "<br/>"));
 
             return new Email
             {
