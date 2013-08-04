@@ -16,6 +16,8 @@ namespace ewv.server.domain
 
         public Einplanung Termin_berechnen(Email email)
         {
+            if (email.An.StartsWith("666exception")) throw new ApplicationException("Fehler erzwungen zu Testzwecken!");
+
             var countdown = Countdown_bestimmen(email.An);
             var termin = DateTime.Now.Add(countdown);
             return new Einplanung
