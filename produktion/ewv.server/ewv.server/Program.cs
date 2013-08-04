@@ -19,8 +19,7 @@ namespace ewv.server
                 var domain = new Wiedervorlage(config);
                 var integration = new Integration(receivemail, sendmail, wiedervorlagespeicher, domain);
 
-                integration.Einplanen();
-                integration.Wiedervorlegen();
+                integration.Ausführen();
             }
         }
     }

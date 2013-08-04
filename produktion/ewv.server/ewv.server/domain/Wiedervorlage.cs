@@ -21,14 +21,9 @@ namespace ewv.server.domain
             return new Einplanung
                 {
                     Id = Guid.NewGuid().ToString(),
-                    MessageId = email.MessageId,
-
                     Termin = termin,
                     AngelegtAm = DateTime.Now,
-
-                    Von = email.Von,
-                    Betreff = email.Betreff,
-                    Text = email.Text
+                    Email = email
                 };
         }
 
@@ -41,16 +36,17 @@ namespace ewv.server.domain
 
         public Email Wiedervorlageemail_generieren(Einplanung einplanung)
         {
-            var text = string.Format("<b>Wiedervorlage für Email vom {0}</b><br/><hr/>{1}",
+            var text = string.Format("<b>Wiedervorlage für Email vom {0} an {1}</b><br/><hr/>{2}",
                                       einplanung.AngelegtAm,
-                                      einplanung.Text.Replace("\n", "<br/>"));
+                                      einplanung.Email.An,
+                                      einplanung.Email.Text.Replace("\n", "<br/>"));
 
             return new Email
             {
-                MessageId = einplanung.MessageId,
+                MessageId = einplanung.Email.MessageId,
                 Von = "no-reply-wiedervorlage@" + _config["mailserver_domain"],
-                An = einplanung.Von,
-                Betreff = einplanung.Betreff,
+                An = einplanung.Email.Von,
+                Betreff = einplanung.Email.Betreff,
                 Text = text
             };
         }

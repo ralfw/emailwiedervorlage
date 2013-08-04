@@ -22,7 +22,14 @@ namespace ewv.server.domain
         }
 
 
-        public void Einplanen()
+        public void Ausführen()
+        {
+            Einplanen();
+            Wiedervorlegen();
+        }
+
+
+        private void Einplanen()
         {
             var emails = _receivemail.Einplanungen_abholen().ToList();
             Console.WriteLine("Einzuplanen: {0}", emails.Count);
@@ -37,7 +44,7 @@ namespace ewv.server.domain
 
 
 
-        public void Wiedervorlegen()
+        private void Wiedervorlegen()
         {
             var fälligeEinplanungen = Fällige_Einplanungen_selektieren().ToList();
             Console.WriteLine("Fällige Wiedervorlagen: {0}", fälligeEinplanungen.Count);

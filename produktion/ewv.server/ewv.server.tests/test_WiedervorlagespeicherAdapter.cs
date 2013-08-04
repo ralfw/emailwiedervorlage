@@ -29,9 +29,14 @@ namespace ewv.server.tests
                     Termin = new DateTime(2013, 08, 04, 14, 17, 00),
                     AngelegtAm = new DateTime(2013, 08, 04, 13, 17, 00),
 
-                    Von = "me@gmail.com",
-                    Betreff = "Ein Betreff",
-                    Text = "Zeile1\nZeile2"
+                    Email = new Email
+                        {
+                            MessageId = "abc",
+                            Von = "me@gmail.com",
+                            An = "in5minuten@wiedervorlage.cc",
+                            Betreff = "Ein Betreff",
+                            Text = "Zeile1\nZeile2"
+                        }
                 });
             sut.Eintragen(new Einplanung
                 {
@@ -39,9 +44,14 @@ namespace ewv.server.tests
                     Termin = new DateTime(2013, 08, 04, 15, 00, 00),
                     AngelegtAm = new DateTime(2013, 08, 04, 12, 00, 00),
 
-                    Von = "you@gmail.com",
-                    Betreff = "Noch ein Betreff",
-                    Text = "ZeileA\nZeileB"
+                    Email = new Email
+                    {
+                        MessageId = "xyz",
+                        Von = "you@gmail.com",
+                        An = "in3tagen@wiedervorlage.cc",
+                        Betreff = "Noch ein Betreff",
+                        Text = "ZeileA\nZeileB"
+                    }
                 });
 
 
@@ -49,7 +59,7 @@ namespace ewv.server.tests
             Assert.AreEqual(2, einplanungen.Length);
             Assert.AreEqual("id1", einplanungen[0].Id);
             Assert.AreEqual(new DateTime(2013, 08, 04, 15, 00, 00), einplanungen[1].Termin);
-            Assert.AreEqual("ZeileA\nZeileB", einplanungen[1].Text);
+            Assert.AreEqual("ZeileA\nZeileB", einplanungen[1].Email.Text);
         }
     }
 }
