@@ -1,0 +1,1 @@
+"C:\Program Files\Mono-2.10.9\bin\mono" ewv.server.exe
