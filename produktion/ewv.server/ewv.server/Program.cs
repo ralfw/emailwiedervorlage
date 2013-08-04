@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ewv.server.adapter;
+﻿using ewv.server.adapter;
 using ewv.server.domain;
 
 namespace ewv.server
