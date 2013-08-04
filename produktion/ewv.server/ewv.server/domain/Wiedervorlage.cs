@@ -16,15 +16,74 @@ namespace ewv.server.domain
 
         public Einplanung Termin_berechnen(Email email)
         {
-            var termin = DateTime.Now.Add(new TimeSpan(0, 0, 30));
-
+            var countdown = Countdown_bestimmen(email.An);
+            var termin = DateTime.Now.Add(countdown);
             return new Einplanung
+            {
+                Id = Guid.NewGuid().ToString(),
+                Termin = termin,
+                AngelegtAm = DateTime.Now,
+                Email = email
+            };
+        }
+
+        internal TimeSpan Countdown_bestimmen(string emailadresse)
+        {
+            var m = System.Text.RegularExpressions.Regex.Match(emailadresse, @"in(\d+)(\w+)@");
+            if (m.Success)
+            {
+                var dauer = int.Parse(m.Groups[1].Value);
+                var zeitraum = m.Groups[2].Value;
+
+                switch (zeitraum.ToLower())
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Termin = termin,
-                    AngelegtAm = DateTime.Now,
-                    Email = email
-                };
+                    case "min":
+                    case "minute":
+                    case "minuten":
+                    case "minutes":
+                        return new TimeSpan(0, 0, dauer, 0);
+
+                    case "h":
+                    case "std":
+                    case "stunde":
+                    case "stunden":
+                    case "hour":
+                    case "hours":
+                        return new TimeSpan(0, dauer, 0, 0);
+
+                    case "t":
+                    case "d":
+                    case "tag":
+                    case "tage":
+                    case "tagen":
+                    case "day":
+                    case "days":
+                        return new TimeSpan(dauer, 0, 0, 0);
+
+                    case "m":
+                    case "mon":
+                    case "monat":
+                    case "monate":
+                    case "monaten":
+                    case "month":
+                    case "months":
+                        return new TimeSpan(30 * dauer, 0, 0, 0);
+
+                    case "y":
+                    case "j":
+                    case "jahr":
+                    case "jahre":
+                    case "jahren":
+                    case "year":
+                    case "years":
+                        return new TimeSpan(365 * dauer, 0, 0, 0);
+
+                    default:
+                        throw new InvalidOperationException("Ungültiger Zeitraum in Einplanungsadresse: " + emailadresse);
+                }
+            }
+           
+            throw new InvalidOperationException("Adresse entspricht nicht der Einplanungssyntax: " + emailadresse);
         }
 
 
