@@ -9,10 +9,13 @@ namespace ewv.server.adapter
 {
     internal class ImapAdapter : IDisposable
     {
+        private readonly KonfigurationAdapter _config;
         private readonly Imap4Client _imap;
 
         public ImapAdapter(KonfigurationAdapter config)
         {
+            _config = config;
+
             _imap = new Imap4Client();
             _imap.Connect(config["mailserver_receive"]);
             _imap.Login(config["mailserver_user"], config["mailserver_password"]);
@@ -63,7 +66,7 @@ namespace ewv.server.adapter
             return msg.To
                       .Union(msg.Cc)
                       .Union(msg.Bcc)
-                      .Where(empfänger => empfänger.Email.ToLower().EndsWith("@emailwiedervorlage.de"))
+                      .Where(empfänger => empfänger.Email.ToLower().EndsWith("@" + _config["mailserver_domain"]))
                       .Select(empfänger => empfänger.Email);
         }
 

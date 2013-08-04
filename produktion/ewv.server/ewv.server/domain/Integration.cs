@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ewv.server.adapter;
 using ewv.server.kontrakt;
@@ -24,6 +25,7 @@ namespace ewv.server.domain
         public void Einplanen()
         {
             var emails = _receivemail.Einplanungen_abholen().ToList();
+            Console.WriteLine("Einzuplanen: {0}", emails.Count);
             emails.ForEach(Email_einplanen);
         }
 
@@ -38,6 +40,7 @@ namespace ewv.server.domain
         public void Wiedervorlegen()
         {
             var fälligeEinplanungen = Fällige_Einplanungen_selektieren().ToList();
+            Console.WriteLine("Fällige Wiedervorlagen: {0}", fälligeEinplanungen.Count);
             fälligeEinplanungen.ForEach(Versenden);
         }
 

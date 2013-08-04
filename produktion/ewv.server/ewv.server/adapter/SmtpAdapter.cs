@@ -21,10 +21,11 @@ namespace ewv.server.adapter
             var msg = new MailMessage(new MailAddress(email.Von, "Email-Wiedervorlage"), new MailAddress(email.An))
                 {
                     Subject = email.Betreff,
-                    Body = email.Text
+                    Body = email.Text,
+                    IsBodyHtml = true
                 };
             _smtp.Send(msg);
-            Console.WriteLine("wiedervorlage versandt: {0}->{1}\n{2}\n{3}\n\n", email.Von, email.An, email.Betreff, email.Text);
+            //Console.WriteLine("wiedervorlage versandt: {0}->{1}\n{2}\n{3}\n\n", email.Von, email.An, email.Betreff, email.Text);
         }
 
 

@@ -6,34 +6,50 @@ namespace ewv.server.domain
 {
     internal class Wiedervorlage
     {
+        private readonly KonfigurationAdapter _config;
+
+        public Wiedervorlage(KonfigurationAdapter config)
+        {
+            _config = config;
+        }
+
+
         public Einplanung Termin_berechnen(Email email)
         {
-            return null;
+            var termin = DateTime.Now.Add(new TimeSpan(0, 0, 30));
+
+            return new Einplanung
+                {
+                    Id = email.Id,
+                    Termin = termin,
+                    AngelegtAm = DateTime.Now,
+
+                    Von = email.Von,
+                    Betreff = email.Betreff,
+                    Text = email.Text
+                };
         }
 
 
         public bool Ist_fällig(Einplanung einplanung)
         {
-            return true;
+            return einplanung.Termin <= DateTime.Now;
         }
 
 
         public Email Wiedervorlageemail_generieren(Einplanung einplanung)
         {
-            throw new NotImplementedException();
-        }
+            var text = string.Format("<b>Wiedervorlage für Email vom {0}</b><br/><hr/>{1}",
+                                      einplanung.AngelegtAm,
+                                      einplanung.Text);
 
-
-        [Obsolete]
-        public Email Spiegelung_herstellen(Email email)
-        {
             return new Email
-                {
-                    An = email.Von,
-                    Von = "no-reply-wiedervorlage@emailwiedervorlage.de",
-                    Betreff = email.Betreff,
-                    Text = string.Format("Wiedervorlage von: {0}\n---\n{1}", email.An, email.Text)
-                };
+            {
+                Von = "no-reply-wiedervorlage@" + _config["mailserver_domain"],
+                An = einplanung.Von,
+                Betreff = einplanung.Betreff,
+                Text = text
+            };
         }
     }
 }
