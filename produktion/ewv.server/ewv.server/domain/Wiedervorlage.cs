@@ -20,7 +20,9 @@ namespace ewv.server.domain
 
             return new Einplanung
                 {
-                    Id = email.Id,
+                    Id = Guid.NewGuid().ToString(),
+                    MessageId = email.Id,
+
                     Termin = termin,
                     AngelegtAm = DateTime.Now,
 

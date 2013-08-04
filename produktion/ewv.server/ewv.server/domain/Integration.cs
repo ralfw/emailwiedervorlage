@@ -54,6 +54,7 @@ namespace ewv.server.domain
         {
             var email = _domain.Wiedervorlageemail_generieren(einplanung);
             _sendmail.Wiedervorlage_versenden(email);
+            _wiedervorlagespeicher.Löschen(einplanung);
         }
     }
 }

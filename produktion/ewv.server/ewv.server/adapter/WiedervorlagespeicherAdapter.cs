@@ -19,11 +19,11 @@ namespace ewv.server.adapter
 
         public void Eintragen(Einplanung einplanung)
         {
-            var filename = PATH + "\\" + (Directory.GetFiles(PATH).Length + 1) + ".txt";
+            var filename = PATH + "\\" + einplanung.Id + ".txt";
             using (var sw = new StreamWriter(filename))
             {
                 sw.WriteLine("1.0");
-                sw.WriteLine(einplanung.Id);
+                sw.WriteLine(einplanung.MessageId);
                 sw.WriteLine(einplanung.Termin);
                 sw.WriteLine(einplanung.AngelegtAm);
                 sw.WriteLine(einplanung.Von);
@@ -47,7 +47,8 @@ namespace ewv.server.adapter
 
                 var einplanung = new Einplanung
                     {
-                        Id = sr.ReadLine(),
+                        Id = Path.GetFileNameWithoutExtension(filename),
+                        MessageId = sr.ReadLine(),
                         Termin = DateTime.Parse(sr.ReadLine()),
                         AngelegtAm = DateTime.Parse(sr.ReadLine()),
                         Von = sr.ReadLine(),
@@ -57,6 +58,12 @@ namespace ewv.server.adapter
 
                 return einplanung;
             }
+        }
+
+
+        public void Löschen(Einplanung einplanung)
+        {
+            File.Delete(PATH + "\\" + einplanung.Id + ".txt");
         }
 
 
