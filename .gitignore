@@ -91,7 +91,6 @@ AppPackages/
 # Others
 [Bb]in
 [Oo]bj
-deploy/*.config
 [Uu]nversioned
 sql
 TestResults
