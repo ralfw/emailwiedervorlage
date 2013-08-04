@@ -95,7 +95,7 @@ namespace ewv.server.domain
         }
 
 
-        public Email Wiedervorlageemail_generieren(Einplanung einplanung)
+        public Email Wiedervorlageemail_generieren(Einplanung einplanung) 
         {
             var text = string.Format("<b>Wiedervorlage für Email vom {0} an {1}</b><br/><hr/>{2}",
                                       einplanung.AngelegtAm,

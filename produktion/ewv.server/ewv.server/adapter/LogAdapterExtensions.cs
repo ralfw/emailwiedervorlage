@@ -9,9 +9,9 @@ namespace ewv.server.adapter
         {
             Log("*** Fehler (Details s. crashdump): {0}", ex.Message);
 
-            File.AppendAllText("crashdump.txt", string.Format("=== {0} ===\n", DateTime.Now));
+            File.AppendAllText("crashdump.txt", string.Format("*** {0} ***\n", DateTime.Now));
             File.AppendAllText("crashdump.txt", ex.ToString());
-            File.AppendAllText("crashdump.txt", ex.StackTrace + "\n");
+            File.AppendAllText("crashdump.txt", ex.StackTrace + "\n"); 
         }
 
         public static void Log(string format, params object[] args)

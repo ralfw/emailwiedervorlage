@@ -63,7 +63,7 @@ namespace ewv.server.adapter
         internal IEnumerable<string> Einplanungsemailadressen_sammeln(Message msg)
         {
             return msg.To
-                      .Union(msg.Cc)
+                      .Union(msg.Cc) 
                       .Union(msg.Bcc)
                       .Where(empfänger => empfänger.Email.ToLower().EndsWith("@" + _config["mailserver_domain"]))
                       .Select(empfänger => empfänger.Email);
