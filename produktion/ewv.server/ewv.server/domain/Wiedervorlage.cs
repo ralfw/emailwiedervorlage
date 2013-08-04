@@ -6,6 +6,25 @@ namespace ewv.server.domain
 {
     internal class Wiedervorlage
     {
+        public Einplanung Termin_berechnen(Email email)
+        {
+            return null;
+        }
+
+
+        public bool Ist_fällig(Einplanung einplanung)
+        {
+            return true;
+        }
+
+
+        public Email Wiedervorlageemail_generieren(Einplanung einplanung)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [Obsolete]
         public Email Spiegelung_herstellen(Email email)
         {
             return new Email

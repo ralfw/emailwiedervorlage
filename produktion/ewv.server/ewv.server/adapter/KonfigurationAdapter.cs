@@ -2,7 +2,7 @@
 
 namespace ewv.server.adapter
 {
-    internal class KonfigurationAdapter
+    public class KonfigurationAdapter
     {
         public string this[string schlüssel]
         {

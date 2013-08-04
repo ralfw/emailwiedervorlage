@@ -4,26 +4,24 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C5AAFAA-A187-4C87-800B-A63C8BD08EE2}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{54DC839C-F1FB-4EB1-9731-2365FE12ED7F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ewv.server</RootNamespace>
-    <AssemblyName>ewv.server</AssemblyName>
+    <RootNamespace>ewv.server.tests</RootNamespace>
+    <AssemblyName>ewv.server.tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,14 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ActiveUp.Net.Common">
-      <HintPath>..\..\lib\Mailsystem.Net\ActiveUp.Net.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="ActiveUp.Net.Imap4">
-      <HintPath>..\..\lib\Mailsystem.Net\ActiveUp.Net.Imap4.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,21 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="kontrakt\Einplanung.cs" />
-    <Compile Include="domain\Integration.cs" />
-    <Compile Include="adapter\WiedervorlagespeicherAdapter.cs" />
-    <Compile Include="kontrakt\Email.cs" />
-    <Compile Include="adapter\ImapAdapter.cs" />
-    <Compile Include="adapter\KonfigurationAdapter.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="test_WiedervorlagespeicherAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="adapter\SmtpAdapter.cs" />
-    <Compile Include="domain\Wiedervorlage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="unversioned\App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ewv.server\ewv.server.csproj">
+      <Project>{4c5aafaa-a187-4c87-800b-a63c8bd08ee2}</Project>
+      <Name>ewv.server</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

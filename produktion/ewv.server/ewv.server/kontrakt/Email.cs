@@ -1,6 +1,6 @@
 ﻿namespace ewv.server.kontrakt
 {
-    internal class Email
+    public class Email
     {
         public string Id;
         public string An;

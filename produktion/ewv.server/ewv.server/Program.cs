@@ -13,12 +13,13 @@ namespace ewv.server
             var config = new KonfigurationAdapter();
             using(var sendmail = new SmtpAdapter(config))
             using (var receivemail = new ImapAdapter(config))
+            using(var wiedervorlagespeicher = new WiedervorlagespeicherAdapter(config))
             {
                 var domain = new Wiedervorlage();
+                var integration = new Integration(receivemail, sendmail, wiedervorlagespeicher, domain);
 
-                var emails = receivemail.Einplanungen_abholen();
-                emails.Select(domain.Spiegelung_herstellen).ToList()
-                      .ForEach(sendmail.Wiedervorlage_versenden);
+                integration.Einplanen();
+                integration.Wiedervorlegen();
             }
         }
     }
