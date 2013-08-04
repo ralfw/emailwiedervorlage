@@ -2,7 +2,7 @@
 {
     public class Email
     {
-        public string Id;
+        public string MessageId;
         public string An;
         public string Von;
         public string Betreff;

@@ -53,7 +53,7 @@ namespace ewv.server.adapter
             return from msg in messages
                    from einplanungsadresse in Einplanungsemailadressen_sammeln(msg)
                    select new Email {
-                       Id = msg.MessageId,
+                       MessageId = msg.MessageId,
                        An = einplanungsadresse,
                        Von = msg.From.Email,
                        Betreff = msg.Subject,

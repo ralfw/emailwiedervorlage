@@ -24,8 +24,9 @@ namespace ewv.server.adapter
                     Body = email.Text,
                     IsBodyHtml = true
                 };
+            msg.Headers.Add("In-Reply-To", email.MessageId);
+
             _smtp.Send(msg);
-            //Console.WriteLine("wiedervorlage versandt: {0}->{1}\n{2}\n{3}\n\n", email.Von, email.An, email.Betreff, email.Text);
         }
 
 

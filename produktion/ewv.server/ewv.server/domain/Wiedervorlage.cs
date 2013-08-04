@@ -21,7 +21,7 @@ namespace ewv.server.domain
             return new Einplanung
                 {
                     Id = Guid.NewGuid().ToString(),
-                    MessageId = email.Id,
+                    MessageId = email.MessageId,
 
                     Termin = termin,
                     AngelegtAm = DateTime.Now,
@@ -47,6 +47,7 @@ namespace ewv.server.domain
 
             return new Email
             {
+                MessageId = einplanung.MessageId,
                 Von = "no-reply-wiedervorlage@" + _config["mailserver_domain"],
                 An = einplanung.Von,
                 Betreff = einplanung.Betreff,
