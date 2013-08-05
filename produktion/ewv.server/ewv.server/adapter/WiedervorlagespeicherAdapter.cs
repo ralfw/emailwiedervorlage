@@ -18,8 +18,7 @@ namespace ewv.server.adapter
 
         public void Eintragen(Einplanung einplanung)
         {
-            var filename = PATH + "\\" + einplanung.Id + ".txt";
-            using (var sw = new StreamWriter(filename))
+            using (var sw = new StreamWriter(Dateiname_für_Einplanung(einplanung)))
             {
                 sw.WriteLine("1.0");
                 sw.WriteLine(einplanung.Termin);
@@ -32,6 +31,7 @@ namespace ewv.server.adapter
                 sw.Write(einplanung.Email.Text);
             }
         }
+
 
 
         public IEnumerable<Einplanung> Alle_Einträge_laden()
@@ -70,10 +70,16 @@ namespace ewv.server.adapter
 
         public void Löschen(Einplanung einplanung)
         {
-            File.Delete(PATH + "\\" + einplanung.Id + ".txt");
+            File.Delete(Dateiname_für_Einplanung(einplanung));
         }
 
 
+        private static string Dateiname_für_Einplanung(Einplanung einplanung)
+        {
+            return Path.Combine(PATH, einplanung.Id + ".txt");
+        }
+
+        
         public void Dispose()
         {}
     }
