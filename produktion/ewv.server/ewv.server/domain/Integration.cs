@@ -43,9 +43,11 @@ namespace ewv.server.domain
 
         private void Email_einplanen(Email email)
         {
-            LogAdapter.Log("  Email von {0} an {1}: {2}", email.Von, email.An, email.Betreff);
+            LogAdapter.Log("  {0} -> {1}: {2}", email.Von, email.An, email.Betreff);
 
             var einplanung = _domain.Termin_berechnen(email);
+            LogAdapter.Log("    eingeplant für {0}", einplanung.Termin);
+
             _wiedervorlagespeicher.Eintragen(einplanung);
         }
 
@@ -70,7 +72,7 @@ namespace ewv.server.domain
 
         private void Versenden(Einplanung einplanung)
         {
-            LogAdapter.Log("  Versenden an {0}: {1}", einplanung.Email.Von, einplanung.Email.Text);
+            LogAdapter.Log("  {0} vom {1}: {2}", einplanung.Email.Von, einplanung.AngelegtAm, einplanung.Email.Betreff);
 
             var email = _domain.Wiedervorlageemail_generieren(einplanung);
             _sendmail.Wiedervorlage_versenden(email);
