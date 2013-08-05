@@ -8,11 +8,14 @@ namespace ewv.server.adapter
 {
     public class WiedervorlagespeicherAdapter : IDisposable
     {
-        private const string PATH = "Wiedervorlagen";
+        private readonly string _path = "Wiedervorlagen";
 
         public WiedervorlagespeicherAdapter(KonfigurationAdapter config)
         {
-            if (!Directory.Exists(PATH)) Directory.CreateDirectory(PATH);
+            _path = config["wiedervorlagespeicher_pfad"];
+            if (string.IsNullOrEmpty(_path)) _path = "Wiedervorlagen";
+
+            if (!Directory.Exists(_path)) Directory.CreateDirectory(_path);
         }
 
 
@@ -36,7 +39,7 @@ namespace ewv.server.adapter
 
         public IEnumerable<Einplanung> Alle_Einträge_laden()
         {
-            var filenames = Directory.GetFiles(PATH);
+            var filenames = Directory.GetFiles(_path);
             return filenames.Select(Eintrag_laden);
         }
 
@@ -74,9 +77,9 @@ namespace ewv.server.adapter
         }
 
 
-        private static string Dateiname_für_Einplanung(Einplanung einplanung)
+        private string Dateiname_für_Einplanung(Einplanung einplanung)
         {
-            return Path.Combine(PATH, einplanung.Id + ".txt");
+            return Path.Combine(_path, einplanung.Id + ".txt");
         }
 
         
