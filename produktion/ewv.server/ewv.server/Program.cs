@@ -13,23 +13,30 @@ namespace ewv.server
                 Console.WriteLine("ewv.server...");
 
                 var config = new KonfigurationAdapter();
+                var ping = new PingAdapter(config);
+                ping.Internetverbindung_prüfen(
+                    () => {
+                        using (var sendmail = new SmtpAdapter(config))
+                        using (var receivemail = new ImapAdapter(config))
+                        using (var wiedervorlagespeicher = new WiedervorlagespeicherAdapter(config))
+                        {
+                            var domain = new Wiedervorlage(config);
+                            var integration = new Integration(receivemail, sendmail, wiedervorlagespeicher, domain);
 
-                using (var sendmail = new SmtpAdapter(config))
-                using (var receivemail = new ImapAdapter(config))
-                using (var wiedervorlagespeicher = new WiedervorlagespeicherAdapter(config))
-                {
-                    var domain = new Wiedervorlage(config);
-                    var integration = new Integration(receivemail, sendmail, wiedervorlagespeicher, domain);
+                            integration.Ausführen();
+                        }
 
-                    integration.Ausführen();
-                }
-
-                Console.WriteLine("ok");
+                        Console.WriteLine("Ok");
+                    },
+                    () => {
+                        LogAdapter.Log("<<<Keine Internetverbindung!>>>");
+                        Console.WriteLine("Keine Internetverbindung!");
+                    });
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error: {0}", ex.Message);
                 LogAdapter.Log(ex);
+                Console.WriteLine("Fehler: {0}", ex.Message);
             }
         }
     }
