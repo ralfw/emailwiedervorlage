@@ -7,12 +7,19 @@ namespace ewv.server.adapter
 {
     internal class SmtpAdapter : IDisposable
     {
-        private readonly SmtpClient _smtp;
+        private readonly KonfigurationAdapter _config;
+        private SmtpClient _smtp;
 
         public SmtpAdapter(KonfigurationAdapter config)
         {
-            _smtp = new SmtpClient(config["mailserver_send"]);
-            _smtp.Credentials = new NetworkCredential(config["mailserver_user"], config["mailserver_password"]);
+            _config = config;
+        }
+
+
+        public void Verbinden()
+        {
+            _smtp = new SmtpClient(_config["mailserver_send"]);
+            _smtp.Credentials = new NetworkCredential(_config["mailserver_user"], _config["mailserver_password"]);
         }
 
 
@@ -32,6 +39,8 @@ namespace ewv.server.adapter
 
         public void Dispose()
         {
+            if (_smtp == null) return;
+
             _smtp.Dispose();
         }
     }

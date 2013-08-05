@@ -9,15 +9,19 @@ namespace ewv.server.adapter
     internal class ImapAdapter : IDisposable
     {
         private readonly KonfigurationAdapter _config;
-        private readonly Imap4Client _imap;
+        private Imap4Client _imap;
 
         public ImapAdapter(KonfigurationAdapter config)
         {
             _config = config;
+        }
 
+
+        public void Verbinden()
+        {
             _imap = new Imap4Client();
-            _imap.Connect(config["mailserver_receive"]);
-            _imap.Login(config["mailserver_user"], config["mailserver_password"]);
+            _imap.Connect(_config["mailserver_receive"]);
+            _imap.Login(_config["mailserver_user"], _config["mailserver_password"]);
         }
 
 
@@ -72,6 +76,8 @@ namespace ewv.server.adapter
 
         public void Dispose()
         {
+            if (_imap == null) return;
+
             _imap.Close();
             _imap.Disconnect();
         }

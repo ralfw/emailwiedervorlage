@@ -8,13 +8,15 @@ namespace ewv.server.domain
 {
     internal class Integration
     {
+        private readonly PingAdapter _ping;
         private readonly ImapAdapter _receivemail;
         private readonly SmtpAdapter _sendmail;
         private readonly Wiedervorlage _domain;
         private readonly WiedervorlagespeicherAdapter _wiedervorlagespeicher;
 
-        public Integration(ImapAdapter receivemail, SmtpAdapter sendmail, WiedervorlagespeicherAdapter wiedervorlagespeicher, Wiedervorlage domain)
+        public Integration(PingAdapter ping, ImapAdapter receivemail, SmtpAdapter sendmail, WiedervorlagespeicherAdapter wiedervorlagespeicher, Wiedervorlage domain)
         {
+            _ping = ping;
             _receivemail = receivemail;
             _sendmail = sendmail;
             _wiedervorlagespeicher = wiedervorlagespeicher;
@@ -24,12 +26,28 @@ namespace ewv.server.domain
 
         public void Ausführen()
         {
-            LogAdapter.Log("<<<");
+            _ping.Internetverbindung_prüfen(
+            () => {
+                LogAdapter.Log("<<<");
 
-            Einplanen();
-            Wiedervorlegen();
+                Verbinden();
+                Einplanen();
+                Wiedervorlegen();
 
-            LogAdapter.Log(">>>");
+                LogAdapter.Log(">>>");
+                Console.WriteLine("  Ok");
+            },
+            () => {
+                LogAdapter.Log("<<<Keine Internetverbindung!>>>");
+                Console.WriteLine("  Keine Internetverbindung!");
+            });
+        }
+
+
+        private void Verbinden()
+        {
+            _receivemail.Verbinden();
+            _sendmail.Verbinden();
         }
 
 
