@@ -9,7 +9,14 @@ namespace explore
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
+        {
+            System.Net.IPHostEntry i = System.Net.Dns.GetHostEntry("www.google.com");
+            // internetverbindung, solange keine exception geworfen
+        }
+
+
+        static void Main_Ping(string[] args)
         {
             var p = new Ping();
             var result = p.Send("ralfw.de");

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Net.NetworkInformation;
-using ewv.server.adapter;
 
-namespace ewv.server
+namespace ewv.server.adapter
 {
     internal class PingAdapter
     {
@@ -18,15 +16,15 @@ namespace ewv.server
         {
             try
             {
-                var p = new Ping();
-                var result = p.Send(_config["mailserver_domain"]);
-                if (result.Status == IPStatus.Success)
-                    bei_Verbindung();
+                System.Net.Dns.GetHostEntry(_config["mailserver_domain"]);
             }
             catch
             {
                 ohne_Verbindung();
+                return;
             }
+
+           bei_Verbindung();
         }
     }
 }

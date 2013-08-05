@@ -62,7 +62,10 @@
     <Compile Include="domain\Wiedervorlage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="runonmono.bat">
+    <None Include="runonmono.win.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="runonmono.mac.sh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="unversioned\App.config">
