@@ -1,1 +1,0 @@
-mono ewv.server.exe
