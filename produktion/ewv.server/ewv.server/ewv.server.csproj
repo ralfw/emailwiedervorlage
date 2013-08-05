@@ -65,7 +65,7 @@
     <None Include="runonmono.win.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="runonmono.mac.sh">
+    <None Include="runonmono.mac.command">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="unversioned\App.config">
