@@ -6,6 +6,8 @@ using ewv.server.kontrakt;
 
 namespace ewv.server.adapter
 {
+    // Imap-API: http://mailsystem.codeplex.com/
+
     internal class ImapAdapter : IDisposable
     {
         private readonly KonfigurationAdapter _config;
@@ -36,7 +38,7 @@ namespace ewv.server.adapter
         private IEnumerable<Message> Nachrichten_abholen()
         {
             var mailbox = _imap.SelectMailbox("Inbox");
-            var messages = mailbox.SearchParse("UNSEEN").Cast<Message>().ToArray();
+            var messages = mailbox.SearchParse("ALL").Cast<Message>().ToArray();
             return messages;
         }
         

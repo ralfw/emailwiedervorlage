@@ -62,6 +62,13 @@ namespace ewv.server.domain
                     case "days":
                         return new TimeSpan(dauer, 0, 0, 0);
 
+                    case "w":
+                    case "woche":
+                    case "wochen":
+                    case "week":
+                    case "weeks":
+                        return new TimeSpan(7 * dauer, 0, 0, 0);
+
                     case "m":
                     case "mon":
                     case "monat":

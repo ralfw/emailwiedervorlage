@@ -34,6 +34,16 @@ namespace exploreimap
             return messages;
         }
 
+
+        public void DeleteMail(int index)
+        {
+            var mails = Client.SelectMailbox("Inbox");
+            var fetch = mails.Fetch;
+            var m = fetch.MessageObject(1);
+            //var messages = mails.SearchParse("ALL");
+            mails.DeleteMessage(index, true);
+        }
+
         
         private Imap4Client _client = null;
         private Imap4Client Client

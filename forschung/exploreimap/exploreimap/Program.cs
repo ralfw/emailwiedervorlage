@@ -23,8 +23,33 @@ namespace exploreimap
      */
     class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
+            // Wie können Inbox-Nachrichten gelöscht werden?
+            var mailserver = ConfigurationManager.AppSettings["mailserver"];
+            var mailserver_user = ConfigurationManager.AppSettings["mailserver_user"];
+            var mailserver_password = ConfigurationManager.AppSettings["mailserver_password"];
+
+            Console.WriteLine("server: {0}, user: {1}", mailserver, mailserver_user);
+
+            var rep = new MailRepository(mailserver, 143, false, mailserver_user, mailserver_password);
+            Console.WriteLine("connected");
+            foreach (var email in rep.GetAllMails("Inbox"))
+            {
+                Console.WriteLine("vorher {0}: to:{1}", email.Subject, email.To[0]);
+            }
+
+            rep.DeleteMail(1);
+
+            foreach (var email in rep.GetAllMails("Inbox"))
+            {
+                Console.WriteLine("nachher {0}: to:{1}", email.Subject, email.To[0]);
+            }
+        }
+
+        private static void Main_Adressaten(string[] args)
+        {
+            // Was steht in To, Cc, Bcc drin?
             var mailserver = ConfigurationManager.AppSettings["mailserver"];
             var mailserver_user = ConfigurationManager.AppSettings["mailserver_user"];
             var mailserver_password = ConfigurationManager.AppSettings["mailserver_password"];
@@ -46,6 +71,7 @@ namespace exploreimap
 
         static void Main_Receive(string[] args)
         {
+            // Wie funktioniert das Abholen von Emails?
             var mailserver = ConfigurationManager.AppSettings["mailserver"];
             var mailserver_user = ConfigurationManager.AppSettings["mailserver_user"];
             var mailserver_password = ConfigurationManager.AppSettings["mailserver_password"];
