@@ -61,5 +61,17 @@ namespace ewv.server.tests
             Assert.AreEqual(new DateTime(2013, 08, 04, 15, 00, 00), einplanungen[1].Termin);
             Assert.AreEqual("ZeileA\nZeileB", einplanungen[1].Email.Text);
         }
+
+
+        [Test]
+        public void Lesen_aus_einer_Datei()
+        {
+            var config = new KonfigurationAdapter();
+            var sut = new WiedervorlagespeicherAdapter(config);
+            
+            var e = sut.Eintrag_laden(@"testdata\CAGcd=gEdKE5YyBmmMo=GWafnka0cRh_eLmdhF2-jJYN6QtU1sw@mail.gmail.com.txt");
+
+            Assert.AreEqual("Ein Betreff", e.Email.Betreff);
+        }
     }
 }

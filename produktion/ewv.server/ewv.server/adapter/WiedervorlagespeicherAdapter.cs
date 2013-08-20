@@ -47,11 +47,11 @@ namespace ewv.server.adapter
             return filenames.Select(Eintrag_laden);
         }
 
-        private Einplanung Eintrag_laden(string filename)
+        internal Einplanung Eintrag_laden(string filename)
         {
             using (var sr = new StreamReader(filename))
             {
-                sr.ReadLine();
+                sr.ReadLine(); // Versionsnr
 
                 var einplanung = new Einplanung
                     {

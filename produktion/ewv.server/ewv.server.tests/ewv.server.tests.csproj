@@ -55,6 +55,11 @@
       <Name>ewv.server</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="testdata\CAGcd=gEdKE5YyBmmMo=GWafnka0cRh_eLmdhF2-jJYN6QtU1sw%40mail.gmail.com.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
