@@ -23,7 +23,7 @@ namespace ewv.server.adapter
         }
 
 
-        public void Wiedervorlage_versenden(Email email)
+        public void Senden(Email email)
         {
             var msg = new MailMessage(new MailAddress(email.Von, "Email-Wiedervorlage"), new MailAddress(email.An))
                 {

@@ -14,19 +14,24 @@ namespace ewv.server.domain
         }
 
 
-        public Einplanung Termin_berechnen(Email email)
+        public void Termin_berechnen(Email email, Action<Einplanung> beiErfolg, Action<string> beiFehler)
         {
-            if (email.An.StartsWith("exception")) throw new ApplicationException("Fehler erzwungen zu Testzwecken!");
-
-            var countdown = Countdown_bestimmen(email.AnWiedervorlage);
-            var termin = email.VersandzeitpunktUTC.ToLocalTime().Add(countdown);
-            return new Einplanung
+            try
             {
-                Id = Guid.NewGuid().ToString(),
-                Termin = termin,
-                AngelegtAm = DateTime.Now,
-                Email = email
-            };
+                var countdown = Countdown_bestimmen(email.AnWiedervorlage);
+                var termin = email.VersandzeitpunktUTC.ToLocalTime().Add(countdown);
+                beiErfolg(new Einplanung
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Termin = termin,
+                        AngelegtAm = DateTime.Now,
+                        Email = email
+                    });
+            }
+            catch (Exception ex)
+            {
+                beiFehler(ex.Message);
+            }
         }
 
         internal TimeSpan Countdown_bestimmen(string emailadresse)
