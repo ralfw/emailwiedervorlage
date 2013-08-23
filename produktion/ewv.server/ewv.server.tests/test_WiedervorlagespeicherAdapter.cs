@@ -69,7 +69,7 @@ namespace ewv.server.tests
             var config = new KonfigurationAdapter();
             var sut = new WiedervorlagespeicherAdapter(config);
             
-            var e = sut.Eintrag_laden(@"testdata\CAGcd=gEdKE5YyBmmMo=GWafnka0cRh_eLmdhF2-jJYN6QtU1sw@mail.gmail.com.txt");
+            var e = sut.Eintrag_laden(@"testdata\CAGcd=gEdKE5YyBmmMo=GWafnka0cRh_eLmdhF2-jJYN6QtU1sw@mail.gmail.com-in2wochen@wiedervorlage.cc.txt");
 
             Assert.AreEqual("Ein Betreff", e.Email.Betreff);
         }

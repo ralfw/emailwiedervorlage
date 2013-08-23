@@ -59,7 +59,9 @@ namespace ewv.server.adapter
                    from einplanungsadresse in Einplanungsemailadressen_sammeln(msg)
                    select new Email {
                        MessageId = msg.MessageId,
-                       An = einplanungsadresse,
+                       VersandzeitpunktUTC = msg.Date,
+                       An = msg.To[0].Email,
+                       AnWiedervorlage = einplanungsadresse,
                        Von = msg.From.Email,
                        Betreff = msg.Subject,
                        Text = msg.BodyText.Text

@@ -16,10 +16,10 @@ namespace ewv.server.domain
 
         public Einplanung Termin_berechnen(Email email)
         {
-            if (email.An.StartsWith("666exception")) throw new ApplicationException("Fehler erzwungen zu Testzwecken!");
+            if (email.An.StartsWith("exception")) throw new ApplicationException("Fehler erzwungen zu Testzwecken!");
 
-            var countdown = Countdown_bestimmen(email.An);
-            var termin = DateTime.Now.Add(countdown);
+            var countdown = Countdown_bestimmen(email.AnWiedervorlage);
+            var termin = email.VersandzeitpunktUTC.ToLocalTime().Add(countdown);
             return new Einplanung
             {
                 Id = Guid.NewGuid().ToString(),
@@ -104,9 +104,10 @@ namespace ewv.server.domain
 
         public Email Wiedervorlageemail_generieren(Einplanung einplanung) 
         {
-            var text = string.Format("<b>Wiedervorlage für Email vom {0} an {1}</b><br/><hr/>{2}",
-                                      einplanung.AngelegtAm,
+            var text = string.Format("<b>Wiedervorlage für Email vom {0} UTC. Empfänger: {1}, Wiedervorlage: {2}</b><br/><hr/>{3}",
+                                      einplanung.Email.VersandzeitpunktUTC,
                                       einplanung.Email.An,
+                                      einplanung.Email.AnWiedervorlage,
                                       einplanung.Email.Text.Replace("\n", "<br/>"));
 
             return new Email
