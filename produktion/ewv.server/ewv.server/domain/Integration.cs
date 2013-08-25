@@ -57,6 +57,8 @@ namespace ewv.server.domain
 
             var emails = _receivemail.Einplanungen_abholen().ToList();
             emails.ForEach(Email_einplanen);
+            var eindeutige_MessageIds_der_zu_löschenden_Emails = emails.Select(e => e.MessageId).Distinct();
+            _receivemail.Einplanungen_löschen(eindeutige_MessageIds_der_zu_löschenden_Emails);
         }
 
         private void Email_einplanen(Email email)

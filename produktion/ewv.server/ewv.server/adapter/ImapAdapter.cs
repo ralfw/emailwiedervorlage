@@ -78,6 +78,34 @@ namespace ewv.server.adapter
         }
 
 
+        public void Einplanungen_löschen(IEnumerable<string> messageIds)
+        {
+            var uids = Uids_der_zu_löschenden_Emails_sammeln(messageIds.ToArray());
+            Emails_löschen(uids);
+        }
+
+        private IEnumerable<int> Uids_der_zu_löschenden_Emails_sammeln(string[] messageIds)
+        {
+            var mailbox = _imap.SelectMailbox("Inbox");
+            var fetch = mailbox.Fetch;
+
+            var uids = new List<int>();
+            for (var i = 1; i <= mailbox.MessageCount; i++)
+            {
+                var msg = fetch.MessageObject(i);
+                if (messageIds.Contains(msg.MessageId)) uids.Add(fetch.Uid(i));
+            }
+            return uids;
+        }
+
+        private void Emails_löschen(IEnumerable<int> uids)
+        {
+            var mailbox = _imap.SelectMailbox("Inbox");
+            foreach(var uid in uids)
+                mailbox.UidDeleteMessage(uid, true);
+        }
+
+
         public void Dispose()
         {
             if (_imap == null) return;
@@ -85,5 +113,6 @@ namespace ewv.server.adapter
             _imap.Close();
             _imap.Disconnect();
         }
+
     }
 }
