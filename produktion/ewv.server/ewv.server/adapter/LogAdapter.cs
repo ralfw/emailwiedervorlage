@@ -14,8 +14,7 @@ namespace ewv.server.adapter
             Log("*** Fehler (Details s. crashdump): {0}", ex.Message);
 
             File.AppendAllText(CRASHDUMP_FILENAME, string.Format("*** {0} ***\n", DateTime.Now));
-            File.AppendAllText(CRASHDUMP_FILENAME, ex.ToString());
-            File.AppendAllText(CRASHDUMP_FILENAME, ex.StackTrace + "\n"); 
+            File.AppendAllText(CRASHDUMP_FILENAME, ex.ToString() + "\n");
         }
 
 

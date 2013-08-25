@@ -54,7 +54,7 @@
     <Compile Include="kontrakt\Email.cs" />
     <Compile Include="adapter\ImapAdapter.cs" />
     <Compile Include="adapter\KonfigurationAdapter.cs" />
-    <Compile Include="adapter\LogAdapterExtensions.cs" />
+    <Compile Include="adapter\LogAdapter.cs" />
     <Compile Include="adapter\PingAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

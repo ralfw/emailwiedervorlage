@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using ewv.server.kontrakt;
@@ -19,20 +20,24 @@ namespace ewv.server.adapter
         }
 
 
+        private const string VERSIONSNR = "1.1";
+
         public void Eintragen(Einplanung einplanung)
         {
             var filename = Dateiname_für_Einplanung(einplanung);
             if (File.Exists(filename)) return;
 
+            var ci = CultureInfo.CreateSpecificCulture("de-DE");
+
             using (var sw = new StreamWriter(filename))
             {
-                sw.WriteLine("1.1");
+                sw.WriteLine(VERSIONSNR);
                 sw.WriteLine(einplanung.Id);
-                sw.WriteLine(einplanung.Termin);
-                sw.WriteLine(einplanung.AngelegtAm);
+                sw.WriteLine(einplanung.Termin.ToString(ci));
+                sw.WriteLine(einplanung.AngelegtAm.ToString(ci));
 
                 sw.WriteLine(einplanung.Email.MessageId);
-                sw.WriteLine(einplanung.Email.VersandzeitpunktUTC);
+                sw.WriteLine(einplanung.Email.VersandzeitpunktUTC.ToString(ci));
                 sw.WriteLine(einplanung.Email.An);
                 sw.WriteLine(einplanung.Email.AnWiedervorlage);
                 sw.WriteLine(einplanung.Email.Von);
@@ -45,27 +50,30 @@ namespace ewv.server.adapter
 
         public IEnumerable<Einplanung> Alle_Einträge_laden()
         {
-            var filenames = Directory.GetFiles(_path);
+            var filenames = Directory.GetFiles(_path, "*.txt");
             return filenames.Select(Eintrag_laden);
         }
 
         internal Einplanung Eintrag_laden(string filename)
         {
+            var ci = CultureInfo.CreateSpecificCulture("de-DE");
+
             using (var sr = new StreamReader(filename))
             {
-                sr.ReadLine(); // Versionsnr
+                var versionsnr = sr.ReadLine();
+                if (versionsnr != VERSIONSNR) throw new InvalidOperationException(string.Format("Ungültige Versionsnr. der Einplanung: {0}, {1}", versionsnr, filename));
 
                 var einplanung = new Einplanung
                     {
                         Id = sr.ReadLine(),
-                        Termin = DateTime.Parse(sr.ReadLine()),
-                        AngelegtAm = DateTime.Parse(sr.ReadLine()),
+                        Termin = DateTime.Parse(sr.ReadLine(), ci),
+                        AngelegtAm = DateTime.Parse(sr.ReadLine(), ci),
                     };
 
                 var email = new Email
                     {
                         MessageId = sr.ReadLine(),
-                        VersandzeitpunktUTC = DateTime.Parse(sr.ReadLine()),
+                        VersandzeitpunktUTC = DateTime.Parse(sr.ReadLine(), ci),
                         An = sr.ReadLine(),
                         AnWiedervorlage = sr.ReadLine(),
                         Von = sr.ReadLine(),
