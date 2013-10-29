@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ActiveUp.Net.Mail;
+using System.Net;
+using System.Net.Mail;
 
 namespace exploreimap
 {
@@ -23,7 +17,27 @@ namespace exploreimap
      */
     class Program
     {
-        private static void Main()
+        private static void MainSmtp()
+        {
+            var smtp = new SmtpClient("xxx");
+
+            smtp.Credentials = new NetworkCredential("xxx", "yyy");
+
+            var msg = new MailMessage(new MailAddress("xxx", "Email-Wiedervorlage"), new MailAddress("ralfw08@gmail.com"))
+            {
+                Subject = "Eine Sendung von der Wiedervorlage",
+                Body = "Was soll <i>das</i> wohl bedeuten? Versand um: " + DateTime.Now,
+                IsBodyHtml = true
+            };
+            //msg.Headers.Add("In-Reply-To", email.MessageId);
+
+            smtp.Send(msg);
+
+            Console.WriteLine("SMTP Test");
+        }
+
+
+        private static void MainDatumsformat()
         {
             var mailserver = ConfigurationManager.AppSettings["mailserver"];
             var mailserver_user = ConfigurationManager.AppSettings["mailserver_user"];
@@ -87,7 +101,7 @@ namespace exploreimap
         }
 
 
-        static void Main_Receive(string[] args)
+        static void Main(string[] args)
         {
             // Wie funktioniert das Abholen von Emails?
             var mailserver = ConfigurationManager.AppSettings["mailserver"];
